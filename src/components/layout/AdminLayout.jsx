@@ -16,7 +16,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link as LinkComponent, Navigate, useLocation } from "react-router-dom";
 import { grayColor, matBlack } from "../../constants/color";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,7 +66,7 @@ const Sidebar = ({ w = "100%" }) => {
   return (
     <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"}>
       <Typography variant="h5" textTransform={"uppercase"}>
-        Chattu
+        Chat Demo
       </Typography>
 
       <Stack spacing={"1rem"}>

@@ -1,9 +1,8 @@
-import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const Title = ({
   title = "Chat App",
-  description = "this is the Chat App called Chattu",
+  description = "this is the Chat App built for demonstartion purpose",
 }) => {
   return (
     <Helmet>
