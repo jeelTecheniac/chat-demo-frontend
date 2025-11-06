@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
@@ -30,6 +30,7 @@ const Login = () => {
   const bio = useInputValidation("");
   const username = useInputValidation("", usernameValidator);
   const password = useInputValidation("");
+  const organization = useInputValidation("");
 
   const avatar = useFileHandler("single");
 
@@ -82,6 +83,7 @@ const Login = () => {
     formData.append("bio", bio.value);
     formData.append("username", username.value);
     formData.append("password", password.value);
+    formData.append("Organization", organization.value);
 
     const config = {
       withCredentials: true,
@@ -256,6 +258,15 @@ const Login = () => {
                   variant="outlined"
                   value={name.value}
                   onChange={name.changeHandler}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Organization ID (optional)"
+                  margin="normal"
+                  variant="outlined"
+                  value={organization.value}
+                  onChange={organization.changeHandler}
                 />
 
                 <TextField

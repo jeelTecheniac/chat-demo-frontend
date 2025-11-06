@@ -8,12 +8,8 @@ import React, {
 import AppLayout from "../components/layout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { grayColor, orange } from "../constants/color";
-import {
-  AttachFile as AttachFileIcon,
-  Send as SendIcon,
-} from "@mui/icons-material";
+import { Send as SendIcon } from "@mui/icons-material";
 import { InputBox } from "../components/styles/StyledComponents";
-import FileMenu from "../components/dialogs/FileMenu";
 import MessageComponent from "../components/shared/MessageComponent";
 import { getSocket } from "../socket";
 import {
@@ -28,14 +24,12 @@ import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { useErrors, useSocketEvents } from "../hooks/hook";
 import { useInfiniteScrollTop } from "6pp";
 import { useDispatch } from "react-redux";
-import { setIsFileMenu } from "../redux/reducers/misc";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
 import { TypingLoader } from "../components/layout/Loaders";
 import { useNavigate } from "react-router-dom";
 
 const Chat = ({ chatId, user }) => {
-  
-  const socket=getSocket()
+  const socket = getSocket();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const containerRef = useRef(null);
@@ -44,8 +38,6 @@ const Chat = ({ chatId, user }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
-  const [fileMenuAnchor, setFileMenuAnchor] = useState(null);
-
   const [IamTyping, setIamTyping] = useState(false);
   const [userTyping, setUserTyping] = useState(false);
   const typingTimeout = useRef(null);
@@ -83,11 +75,6 @@ const Chat = ({ chatId, user }) => {
       socket.emit(STOP_TYPING, { members, chatId });
       setIamTyping(false);
     }, [2000]);
-  };
-
-  const handleFileOpen = (e) => {
-    dispatch(setIsFileMenu(true));
-    setFileMenuAnchor(e.currentTarget);
   };
 
   const submitHandler = (e) => {
@@ -217,17 +204,6 @@ const Chat = ({ chatId, user }) => {
           alignItems={"center"}
           position={"relative"}
         >
-          <IconButton
-            sx={{
-              position: "absolute",
-              left: "1.5rem",
-              rotate: "30deg",
-            }}
-            onClick={handleFileOpen}
-          >
-            <AttachFileIcon />
-          </IconButton>
-
           <InputBox
             placeholder="Type Message Here..."
             value={message}

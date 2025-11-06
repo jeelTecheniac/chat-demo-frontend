@@ -8,6 +8,7 @@ const initialState = {
   isSearch: false,
   isFileMenu: false,
   isDeleteMenu: false,
+  isOrganizations: false,
   uploadingLoader: false,
   selectedDeleteChat: {
     chatId: "",
@@ -34,11 +35,11 @@ const miscSlice = createSlice({
     setIsSearch: (state, action) => {
       state.isSearch = action.payload;
     },
-    setIsFileMenu: (state, action) => {
-      state.isFileMenu = action.payload;
-    },
     setIsDeleteMenu: (state, action) => {
       state.isDeleteMenu = action.payload;
+    },
+    setIsOrganizations: (state, action) => {
+      state.isOrganizations = action.payload;
     },
     setUploadingLoader: (state, action) => {
       state.uploadingLoader = action.payload;
@@ -56,8 +57,8 @@ export const {
   setIsNotification,
   setIsMobile,
   setIsSearch,
-  setIsFileMenu,
   setIsDeleteMenu,
+  setIsOrganizations,
   setUploadingLoader,
   setSelectedDeleteChat,
 } = miscSlice.actions;

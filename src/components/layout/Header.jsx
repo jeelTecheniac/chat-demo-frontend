@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { Suspense, lazy, useState } from "react";
+import { Suspense, lazy } from "react";
 import { orange } from "../../constants/color";
 import {
   Add as AddIcon,
@@ -17,6 +17,7 @@ import {
   Group as GroupIcon,
   Logout as LogoutIcon,
   Notifications as NotificationsIcon,
+  Business as BusinessIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -29,18 +30,21 @@ import {
   setIsNewGroup,
   setIsNotification,
   setIsSearch,
+  setIsOrganizations,
 } from "../../redux/reducers/misc";
 import { resetNotificationCount } from "../../redux/reducers/chat";
+import PropTypes from "prop-types";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
+const OrganizationsDialog = lazy(() => import("../specific/Organizations"));
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isSearch, isNotification, isNewGroup } = useSelector(
+  const { isSearch, isNotification, isNewGroup, isOrganizations } = useSelector(
     (state) => state.misc
   );
   const { notificationCount } = useSelector((state) => state.chat);
@@ -59,6 +63,8 @@ const Header = () => {
   };
 
   const navigateToGroup = () => navigate("/groups");
+
+  const openOrganizations = () => dispatch(setIsOrganizations(true));
 
   const logoutHandler = async () => {
     try {
@@ -88,7 +94,7 @@ const Header = () => {
                 display: { xs: "none", sm: "block" },
               }}
             >
-              Chattu
+              Chat Demo
             </Typography>
 
             <Box
@@ -132,6 +138,12 @@ const Header = () => {
               />
 
               <IconBtn
+                title={"Organizations"}
+                icon={<BusinessIcon />}
+                onClick={openOrganizations}
+              />
+
+              <IconBtn
                 title={"Logout"}
                 icon={<LogoutIcon />}
                 onClick={logoutHandler}
@@ -158,6 +170,12 @@ const Header = () => {
           <NewGroupDialog />
         </Suspense>
       )}
+
+      {isOrganizations && (
+        <Suspense fallback={<Backdrop open />}>
+          <OrganizationsDialog />
+        </Suspense>
+      )}
     </>
   );
 };
@@ -176,6 +194,13 @@ const IconBtn = ({ title, icon, onClick, value }) => {
       </IconButton>
     </Tooltip>
   );
+};
+
+IconBtn.propTypes = {
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default Header;

@@ -4,7 +4,7 @@ import { server } from "../../constants/config";
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${server}/api/v1/` }),
-  tagTypes: ["Chat", "User", "Message"],
+  tagTypes: ["Chat", "User", "Message", "Organization"],
 
   endpoints: (builder) => ({
     myChats: builder.query({
@@ -72,21 +72,20 @@ const api = createApi({
       keepUnusedDataFor: 0,
     }),
 
-    sendAttachments: builder.mutation({
-      query: (data) => ({
-        url: "chat/message",
-        method: "POST",
-        credentials: "include",
-        body: data,
-      }),
-    }),
-
     myGroups: builder.query({
       query: () => ({
         url: "chat/my/groups",
         credentials: "include",
       }),
       providesTags: ["Chat"],
+    }),
+
+    myOrganizations: builder.query({
+      query: () => ({
+        url: "user/organizations",
+        credentials: "include",
+      }),
+      providesTags: ["Organization"],
     }),
 
     availableFriends: builder.query({
@@ -110,6 +109,24 @@ const api = createApi({
         body: { name, members },
       }),
       invalidatesTags: ["Chat"],
+    }),
+
+    createOrganization: builder.mutation({
+      query: ({ organizationName }) => ({
+        url: "user/organizations",
+        method: "POST",
+        credentials: "include",
+        body: { organizationName },
+      }),
+      invalidatesTags: ["Organization"],
+    }),
+
+    joinedOrganizations: builder.query({
+      query: () => ({
+        url: "user/organizations/joined",
+        credentials: "include",
+      }),
+      providesTags: ["Organization"],
     }),
 
     renameGroup: builder.mutation({
@@ -171,8 +188,9 @@ export const {
   useAcceptFriendRequestMutation,
   useChatDetailsQuery,
   useGetMessagesQuery,
-  useSendAttachmentsMutation,
   useMyGroupsQuery,
+  useMyOrganizationsQuery,
+  useCreateOrganizationMutation,
   useAvailableFriendsQuery,
   useNewGroupMutation,
   useRenameGroupMutation,
@@ -180,4 +198,5 @@ export const {
   useAddGroupMembersMutation,
   useDeleteChatMutation,
   useLeaveGroupMutation,
+  useJoinedOrganizationsQuery,
 } = api;
